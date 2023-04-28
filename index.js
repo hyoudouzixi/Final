@@ -1,29 +1,27 @@
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
 
-canvas.width = 80 * 12; // 1280
-canvas.height = 80 * 6; // 720
+// create a canvas that fit the pixel map I created 
+canvas.width = 60 * 16; // 960
+canvas.height = 70 * 9; // 630
 
 
-class Sprite {
-  constructor({ position, imageSrc }) {
-    this.position = position;
-    this.image = new Image();
-    this.image.src = imageSrc;
-  }
-  draw() {
-    c.drawImage(this.image, this.position.x, this.position.y);
-  }
-}
+const parsedCollisions = collisions.parse2D();
+const collisionBlocks = parsedCollisions.createObjectsFrom2D();
 
+// load background sprite image
 const background = new Sprite({
   position: {
     x: 0,
     y: 0,
   },
-  imageSrc: './img/Test.png'
+  imageSrc: './img/map.png'
 })
-const player = new Player();
+
+// creat a player 
+const player = new Player({
+  collisionBlocks,
+});
 
 // default with wsd not pressed
 const keys = {
@@ -43,6 +41,12 @@ function animate() {
   
 
   background.draw();
+
+  // draw collision blocks within the canvas
+  collisionBlocks.forEach((collisionBlock) => {
+    collisionBlock.draw();
+  })
+
   // determine which key is pressed and if key d pressed, move right, if key a pressed, move left
   player.velocity.x = 0;
   if (keys.d.pressed) {

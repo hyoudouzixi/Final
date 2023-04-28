@@ -3,7 +3,7 @@ window.addEventListener('keydown', (event) => {
         // if key w is pressed, move up
         case 'w':
             if (player.velocity.y === 0) {
-                player.velocity.y = -20;
+                player.velocity.y = -25;
             }
             break
         // if key a is pressed, returns true
